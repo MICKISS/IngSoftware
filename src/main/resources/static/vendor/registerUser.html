@@ -1,0 +1,106 @@
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+
+
+
+    <link rel="stylesheet" type="text/css" href="./css/style-to-register-user.css">
+
+</head>
+
+<body id="page-top">
+        <!-- Modal register -->
+        <div id="modal-register-container" class="modal-register-container">
+            <div class="modal-register">
+                <div class="contact-form">
+                    <h3 class="logo">Registrar<span> usuario</span></h3>
+                    <form method="post" name="formRegisterPet">
+                        <p>
+                            <label>Nombres</label>
+                            <input type="text" id="txtNombres" name="txtNombres" placeholder="Nombres">
+                        </p>
+                        <p>
+                            <label>Apellidos</label>
+                            <input type="text" id="txtApellidos" name="txtApellidos" placeholder="Apellidos">
+                        </p>
+                        <p>
+                            <label>Tipo de documento</label>
+                            <select class="select-item" id="txtTipoDocumento" name="txtTipoDocumento" required>
+                                <option value="0">Please select...</option>
+                                <option value="CC">CC</option>
+                                <option value="CE">CE</option>
+                            </select>
+                        </p>
+                        <p>
+                            <label>No documento</label>
+                            <input type="number" id="txtNoDocumento" name="txtNoDocumento" placeholder="No documento">
+                        </p>
+                        <p>
+                            <label>Sexo</label>
+                            <select class="select-item" id="txtSexo" name="txtSexo" required>
+                                <option value="0">Please select...</option>
+                                <option> Masculino</option>
+                                <option> Femenino</option>
+                            </select>
+                        </p>
+                        <p>
+                            <label>Dirección</label>
+                            <input type="text" id="txtDireccion" name="txtDireccion" placeholder="Dirección">
+                        </p>
+                        <p>
+                            <label>Telefono</label>
+                            <input type="number" id="txtTelefono" name="txtTelefono" placeholder="Telefono">
+                        </p>
+                        <p>
+                            <label>Rol</label>
+                            <select class="select-item" id="txtRol" name="txtRol"  required>
+                                <option value="0">Please select...</option>
+                                <option id="1" value="1"> Administrador</option>
+                                <option id="2" value="2"> Empleado</option>
+
+                            </select>
+                        </p>
+
+                        <p>
+                            <label>Email</label>
+                            <input type="email" id="txtEmail" name="txtEmail" placeholder="Email">
+                        </p>
+
+                        <p>
+                            <label>Username</label>
+                            <input type="text" id="txtUsername" name="txtUsername" placeholder="Username">
+                        </p>
+                        <p>
+                            <label>Contraseña</label>
+                            <input type="password" id="txtContraseña" name="txtContraseña" placeholder="Contraseña">
+                        </p>
+
+                        <p>
+                            <label>Repetir Contraseña</label>
+                            <input type="password" id="txtRepetirPassword" name="txtRepetirPassword" placeholder="Confirme la contraseña">
+                        </p>
+
+                    </form>
+                    <div class="block">
+                        <button type="submit" id="button-register-owner-pet" class="btn btn-primary"
+                                style="width: 20%; background: #E73232;">Register
+                        </button>
+                        <button id="close-register" class="btn btn-primary" style="width: 20%; background: #E73232;">
+                            close
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <script src="./js/modal-register-user.js"></script>
+</body>
+</html>

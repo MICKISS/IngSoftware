@@ -1,0 +1,57 @@
+.modal-modify-container {
+    display: flex;
+    background-color: rgba(0, 0, 0, 0.3);
+    align-items: center;
+    justify-content: center;
+    position: fixed;
+    pointer-events: none;
+    opacity: 0;
+    top: 0;
+    left: 0;
+    height: 100vh;
+    width: 100vw;
+    transition: opacity 0.3s ease;
+}
+
+.show-modify-owner-pet {
+    pointer-events: auto;
+    opacity: 1;
+}
+
+.modal-modify {
+    background-color: #fff;
+    width: 80%;
+    height: 80%;
+    max-width: 100%;
+    padding: 30px 50px;
+    border-radius: 5px;
+    box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.3);
+    text-align: center;
+}
+
+.modal-modify h1 {
+    margin: 0;
+}
+
+.modal-modify p {
+    opacity: 0.7;
+    font-size: 14px;
+}
+
+@media (min-width: 250px) and (max-width: 991px) {
+    .modal-modify {
+        height: 90%;
+        overflow-y: scroll;
+    }
+
+    .modal-modify {
+        padding: 0 4em;
+        width: 100%;
+        padding: 0 0;
+    }
+
+    .modal-modify-container {
+        margin-top: 10%;
+        width: 100%;
+    }
+}
