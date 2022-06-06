@@ -2,15 +2,17 @@
 $(document).ready(function () {
     cargarUsuarios();
     $('#usuarios').DataTable();
-    actualizarEmailDeUsuario();
+    actualizarusername();
 });
 
-function actualizarEmailDeUsuario() {
+function actualizarusername() {
     document.getElementById('txt-userName').outerHTML = localStorage.userName;
+
 }
 
 
 async function cargarUsuarios() {
+
 
     const request = await fetch('api/usuarios', {
         method: 'GET',
@@ -21,10 +23,9 @@ async function cargarUsuarios() {
     let listadoHtml = '';
 
 
-
     for (let usuario of usuarios) {
 
-        let botonEliminar = '<a href="#"  onclick="eliminarUsuario(`' + usuario.userName + '`)" class="btn btn-danger btn-circle btn-sm"><i class="fas fa-trash"></i></a>';
+        let botonEliminar = '<a href="#"  onclick="eliminarUsuario(`' + usuario.userName + '`);registrarAuditoriaEliminar(`' + usuario.userName + '`)" class="btn btn-danger btn-circle btn-sm"><i class="fas fa-trash"></i></a>';
 
         let botonActualizar =
             '<button type="button"  class="btn btn-danger btn-sm px-3" onclick="open_2(`' + usuario.userName + '`)">   <img src="../img/modificar.svg">  </button>';
@@ -76,7 +77,7 @@ async function eliminarUsuario(username) {
     });
 
 
-    location.reload();
+    //location.reload();
 
 }
 
@@ -116,6 +117,34 @@ async function cargarTexto(username) {
 
 
     console.log(usuarios);
+
+}
+async function registrarAuditoriaEliminar(usuario) {
+    alert("entro");
+
+    let registro = "Elimino el usuario " + usuario;
+
+    let datos = {};
+
+
+    datos.usuario = localStorage.userName;
+    datos.actividad = registro;
+    datos.fecha = "";
+    datos.ip = "";
+
+
+    const request = await fetch('api/auditoria', {
+
+        method: 'POST',
+        headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json',
+            // 'Authorization':localStorage.token
+        },
+        body: JSON.stringify(datos)
+
+    });
+
 
 }
 

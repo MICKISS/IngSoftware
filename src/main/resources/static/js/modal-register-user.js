@@ -10,7 +10,7 @@ $(document).ready(function () {
  *  Method to open the modal
  */
 open.addEventListener('click', () => {
-    modal_container.classList.add('show-register-owner-pet');
+    modal_container.classList.add('show-register-user');
 });
 
 /**
@@ -55,7 +55,9 @@ ok.addEventListener('click', async () => {
 
 
         registrarUsuario();
-        enviarEmail(userName, password, nombres, email);
+        // enviarEmail(userName, password, nombres, email);
+        ip();
+
 
         //
         // } else {
@@ -107,7 +109,8 @@ async function registrarUsuario() {
     });
 
     alert("Registro exitoso");
-    location.reload();
+    registrarAuditoria(datos.userName);
+    //location.reload();
 
 }
 
@@ -143,8 +146,7 @@ function clearDataFrom() {
 async function enviarEmail(username, password, nombres, mail) {
 
 
-
-    const request = await fetch('api/sendmail/'+username+"/"+password+"/"+nombres+"/"+mail, {
+    const request = await fetch('api/sendmail/' + username + "/" + password + "/" + nombres + "/" + mail, {
 
         method: 'POST',
         headers: {
@@ -152,6 +154,50 @@ async function enviarEmail(username, password, nombres, mail) {
             'Content-Type': 'application/json',
             // 'Authorization':localStorage.token
         },
+
+    });
+
+
+}
+
+async function ip() {
+
+    const request = await fetch('api/ip', {
+
+        method: 'GET',
+        headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json',
+            // 'Authorization':localStorage.token
+        },
+
+    });
+
+
+}
+
+async function registrarAuditoria(usuario) {
+
+    let registro = "Registro el usuario " + usuario;
+
+    let datos = {};
+
+
+    datos.usuario = localStorage.userName;
+    datos.actividad = registro;
+    datos.fecha = "";
+    datos.ip = "";
+
+
+    const request = await fetch('api/auditoria', {
+
+        method: 'POST',
+        headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json',
+            // 'Authorization':localStorage.token
+        },
+        body: JSON.stringify(datos)
 
     });
 

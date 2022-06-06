@@ -99,7 +99,7 @@
     transition: opacity 0.3s ease;
 }
 
-.show-register-owner-pet {
+.show-register-user {
     pointer-events: auto;
     opacity: 1;
 }

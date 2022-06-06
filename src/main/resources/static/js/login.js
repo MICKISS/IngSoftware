@@ -23,7 +23,8 @@ async function iniciarSesion() {
     const response = await request.text();
     if(response=="OK"){
         // localStorage.token=response;
-        // localStorage.userName = datos.userName;
+        localStorage.userName = datos.userName;
+
         window.location.href="usuarios.html"
     }else {
         alert("Las credenciales son incorrectas. Por favor intente nuevamente");

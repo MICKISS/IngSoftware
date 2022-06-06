@@ -98,6 +98,7 @@ async function modificarUsuario() {
     });
 
     alert("Actualización exitoso");
+    registrarAuditoriaModificar(datos.userName);
     // window.location.href='login.html';
 
 }
@@ -130,6 +131,35 @@ function clearDataFrom() {
     contraseña.value = "";
 
 }
+
+
+ async function registrarAuditoriaModificar(usuario) {
+
+     let registro = "Modifico el usuario " + usuario;
+
+     let datos = {};
+
+
+     datos.usuario = localStorage.userName;
+     datos.actividad = registro;
+     datos.fecha = "";
+     datos.ip = "";
+
+
+     const request = await fetch('api/auditoria', {
+
+         method: 'POST',
+         headers: {
+             'Accept': 'application/json',
+             'Content-Type': 'application/json',
+             // 'Authorization':localStorage.token
+         },
+         body: JSON.stringify(datos)
+
+     });
+
+
+ }
 
 
 

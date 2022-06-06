@@ -1,8 +1,10 @@
 package com.proyectoFinal.proyectoFinal.Controllers;
 
 import com.proyectoFinal.proyectoFinal.Services.EnviarEmailService;
+import com.proyectoFinal.proyectoFinal.dao.AuditoriaDao;
 import com.proyectoFinal.proyectoFinal.dao.UsuarioDao;
 import com.proyectoFinal.proyectoFinal.dao.UsuarioRepository;
+import com.proyectoFinal.proyectoFinal.model.Auditoria;
 import com.proyectoFinal.proyectoFinal.model.Usuario;
 import com.proyectoFinal.proyectoFinal.utils.JWTUtil;
 import de.mkammerer.argon2.Argon2;
@@ -11,13 +13,16 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.ModelAndView;
 
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 import java.util.Optional;
 
 @RestController
 public class UsuarioController {
+
     @Autowired
     private UsuarioDao usuarioDao;
 
@@ -25,6 +30,9 @@ public class UsuarioController {
     private UsuarioRepository usuarioRepository;
     @Autowired
     private JWTUtil jwtUtil;
+
+
+
 
 
 
@@ -61,6 +69,7 @@ public class UsuarioController {
         usuarioDao.registrar(usuario);
     }
 
+
     @RequestMapping(value = "api/usuarios/{username}", method = RequestMethod.DELETE)
     public void eliminar(@PathVariable String username) {
         usuarioDao.eliminar(username);
@@ -79,32 +88,22 @@ public class UsuarioController {
 
     @RequestMapping(value="api/usuarios/{username}", method = RequestMethod.PUT)
     private Usuario modificarUsuario(@PathVariable("username") String username) {
-        System.out.println("ENTRO"+username);
-        return usuarioDao.findById(username);
 
-                //new Usuario(username,
-//                usuarioRepository.findById(username).get().getUserName(),
-//                usuarioRepository.findById(username).get().getNombres(),
-//                usuarioRepository.findById(username).get().getApellidos(),
-//                usuarioRepository.findById(username).get().getTipoDocumento(),
-//                usuarioRepository.findById(username).get().getNoDocumento(),
-//                usuarioRepository.findById(username).get().getSexo(),
-//                usuarioRepository.findById(username).get().getDireccion(),
-//                usuarioRepository.findById(username).get().getTelefono(),
-//                usuarioRepository.findById(username).get().getRol());
+        return usuarioDao.findById(username);
 
     }
 
 
-//    @RequestMapping(value="usuario1")
-//    public Usuario editar(){
-//        Usuario usuario = new Usuario();
-//        usuario.setNombre("Miguel");
-//        usuario.setApellido("S");
-//        usuario.setEmail("ma@gmail.com");
-//        usuario.setTelefono("1231233");
-//        return usuario;
-//    }
+
+
+    @RequestMapping(value ="api/ip", method = RequestMethod.GET)
+    public String index(HttpServletRequest request) {
+
+        String clientIp = usuarioDao.getClientIp(request);
+        AuditoriaController.ip=clientIp;
+
+        return clientIp;
+    }
 
 
 
