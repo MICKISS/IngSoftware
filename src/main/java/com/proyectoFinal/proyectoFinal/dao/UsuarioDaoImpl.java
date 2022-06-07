@@ -1,6 +1,5 @@
 package com.proyectoFinal.proyectoFinal.dao;
 
-import com.proyectoFinal.proyectoFinal.model.Auditoria;
 import com.proyectoFinal.proyectoFinal.model.Usuario;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.SimpleMailMessage;
@@ -18,6 +17,7 @@ import javax.servlet.http.HttpServletRequest;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 @Transactional
@@ -27,6 +27,9 @@ public class UsuarioDaoImpl implements UsuarioDao {
 
     @Autowired
     private JavaMailSender javaMailSender;
+
+    UsuarioRepository usuarioRepository;
+
 
     @PersistenceContext
     EntityManager entityManager;
@@ -92,6 +95,16 @@ public class UsuarioDaoImpl implements UsuarioDao {
         }
         return usuario;
     }
+//    public boolean validarUsername(String username) {
+//        Usuario usuario = entityManager.find(Usuario.class, username);
+//        boolean encontrado = false;
+//        if (usuario != null) {
+//            encontrado= true;
+//        }
+//        return encontrado;
+//    }
+
+
 
 
     public void enviarMail(String from, String to, String subject, String body) {
@@ -138,6 +151,7 @@ public class UsuarioDaoImpl implements UsuarioDao {
 
         return ipAddress;
     }
+
 
 
 }

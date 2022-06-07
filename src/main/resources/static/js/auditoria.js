@@ -8,7 +8,7 @@ function actualizarusername() {
     document.getElementById('txt-userName').outerHTML = localStorage.userName;
 
 }
-
+const table= document.querySelector("#usuarios");
 
 async function cargarAuditoria() {
 
@@ -48,3 +48,4 @@ function getHeaders() {
         // 'Authorization':localStorage.token
     };
 }
+

@@ -36,16 +36,7 @@ public class UsuarioController {
 
 
 
-//    @RequestMapping(value="api/usuarios/{username}",method= RequestMethod.GET)
-//    public Usuario getUsuario(@PathVariable String userName){
-//        Usuario usuario = new Usuario();
-//        usuario.setId(id);
-//        usuario.setNombre("Miguel");
-//        usuario.setApellido("S");
-//        usuario.setEmail("ma@gmail.com");
-//        usuario.setTelefono("123");
-//        return usuario;
-//    }
+
 
     @RequestMapping(value = "api/usuarios", method = RequestMethod.GET)
     public List<Usuario> getUsuarios() {
@@ -91,6 +82,31 @@ public class UsuarioController {
 
         return usuarioDao.findById(username);
 
+    }
+//    @RequestMapping(value="api/validarusuario/{username}", method = RequestMethod.GET)
+//    private boolean verificarUsuario(@PathVariable("username") String username) {
+//
+//        if(usuarioDao.validarUsername(username)== true){
+//            return true;
+//        }
+//        return false;
+//
+//    }
+
+    @GetMapping("api/validarusuario/{username}")
+    private String validateName(@PathVariable("username") String userName) {
+        String result = "false";
+
+        if (usuarioDao.getUsuarios().size() != 0) {
+            for (int i = 0; i < usuarioDao.getUsuarios().size(); i++) {
+                if (usuarioDao.getUsuarios().get(i).getUserName().equals(userName)
+                ) {
+                    result = "true";
+                    break;
+                }
+            }
+        }
+        return result;
     }
 
 

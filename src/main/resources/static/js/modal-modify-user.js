@@ -1,6 +1,9 @@
 
- let usernameGlobal='';
+$(document).ready(function () {
 
+});
+
+let usernameGlobal='';
 
 const modal_container2 = document.getElementById('modal-modify-container');
 const close2 = document.getElementById('close-modify');
@@ -10,10 +13,10 @@ const okK = document.getElementById('button-modify-owner-pet' );
  * METHOD TO OPEN MODAL
  */
 function open_2(username) {
-
-    modal_container2.classList.add('show-modify-owner-pet');
     usernameGlobal=username;
 
+    modal_container2.classList.add('show-modify-owner-pet');
+    cargarTexto(usernameGlobal);
 
 }
 
@@ -30,7 +33,7 @@ close2.addEventListener('click', () => {
  * Field validation
  */
 okK.addEventListener('click', async () => {
-    alert(usernameGlobal);
+
 
     let nombres = document.getElementById('txtNombres_modify').value;
     let apellidos = document.getElementById('txtApellidos_modify').value;
@@ -160,6 +163,46 @@ function clearDataFrom() {
 
 
  }
+async function cargarTexto(username) {
+
+
+
+    const request = await fetch('api/usuarios/' + username, {
+        method: 'PUT',
+        headers: getHeaders()
+    });
+    const usuarios = await request.json();
+
+
+    let nombres = document.getElementById('txtNombres_modify');
+    let apellidos = document.getElementById('txtApellidos_modify');
+    let tipoDocumento = document.getElementById('txtTipoDocumento_modify');
+    let noDocumento = document.getElementById('txtNoDocumento_modify');
+    let sexo = document.getElementById('txtSexo_modify');
+    let direccion = document.getElementById('txtDireccion_modify');
+    let telefono = document.getElementById('txtTelefono_modify');
+    let rol = document.getElementById('txtRol_modify');
+    let email = document.getElementById('txtEmail_modify');
+    // let contraseña = document.getElementById('txtContraseña_modify');
+    // let repetirContraseña = document.getElementById('txtRepetirPassword_modify');
+
+
+    nombres.value = usuarios.nombres;
+    apellidos.value = usuarios.apellidos;
+    tipoDocumento.value = usuarios.tipoDocumento;
+    noDocumento.value = usuarios.noDocumento;
+    sexo.value = usuarios.sexo;
+    direccion.value = usuarios.direccion;
+    telefono.value = usuarios.telefono;
+    rol.value = usuarios.rol;
+    email.value = usuarios.email;
+    // contraseña.value = usuarios.password;
+    // repetirContraseña.value=usuarios.password;
+
+
+    console.log(usuarios);
+
+}
 
 
 

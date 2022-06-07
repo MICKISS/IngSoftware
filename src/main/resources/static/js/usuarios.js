@@ -66,6 +66,8 @@ async function eliminarUsuario(username) {
         return;
     }
 
+
+
     const request = await fetch('api/usuarios/' + username, {
 
         method: 'DELETE',
@@ -75,52 +77,20 @@ async function eliminarUsuario(username) {
             // 'Authorization':localStorage.token
         }
     });
+    if (username=== localStorage.userName){
+        window.location.href="login.html"
+
+    }else{
+        //location.reload();
+    }
 
 
-    //location.reload();
+
 
 }
 
-async function cargarTexto(username) {
-    alert("entro");
 
-
-    const request = await fetch('api/usuarios/' + username, {
-        method: 'PUT',
-        headers: getHeaders()
-    });
-    const usuarios = await request.json();
-
-    let userName = document.getElementById('txtUsername_modify').value;
-    let nombres = document.getElementById('txtNombres_modify').value;
-    let apellidos = document.getElementById('txtApellidos_modify').value;
-    let tipoDocumento = document.getElementById('txtTipoDocumento_modify').value;
-    let noDocumento = document.getElementById('txtNoDocumento_modify').value;
-    let sexo = document.getElementById('txtSexo_modify').value;
-    let direccion = document.getElementById('txtDireccion_modify').value;
-    let rol = document.getElementById('txtRol_modify').value;
-    let email = document.getElementById('txtEmail_modify').value;
-    let contraseña = document.getElementById('txtContraseña_modify').value;
-
-
-    alert(usuarios.nombres);
-    nombres.value = usuarios.nombres;
-    apellidos.value = usuarios.apellidos;
-    tipoDocumento.value = usuarios.tipoDocumento;
-    noDocumento.value = usuarios.noDocumento;
-    sexo.value = usuarios.sexo;
-    direccion.value = usuarios.direccion;
-    rol.value = usuarios.rol;
-    email.value = usuarios.email;
-    userName.value = usuarios.userName;
-    contraseña.value = "123";
-
-
-    console.log(usuarios);
-
-}
 async function registrarAuditoriaEliminar(usuario) {
-    alert("entro");
 
     let registro = "Elimino el usuario " + usuario;
 

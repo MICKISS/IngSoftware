@@ -2,6 +2,7 @@ const open = document.getElementById('modal-register-button');
 const modal_container = document.getElementById('modal-register-container');
 const close = document.getElementById('close-register');
 const ok = document.getElementById('button-register-owner-pet');
+
 $(document).ready(function () {
 
 
@@ -54,9 +55,10 @@ ok.addEventListener('click', async () => {
         // if (await validateName(userName) === "false") {
 
 
-        registrarUsuario();
+
         // enviarEmail(userName, password, nombres, email);
-        ip();
+
+        validarusername(userName);
 
 
         //
@@ -75,6 +77,7 @@ ok.addEventListener('click', async () => {
  * methodToRegisterUser
  */
 async function registrarUsuario() {
+    let username = document.getElementById('txtUsername').value;
     let datos = {};
     datos.userName = document.getElementById('txtUsername').value;
 
@@ -107,9 +110,18 @@ async function registrarUsuario() {
         //Con este metodo se convierte cualquier string en json
         body: JSON.stringify(datos)
     });
-
-    alert("Registro exitoso");
     registrarAuditoria(datos.userName);
+    //  validarusername(username);
+    //
+    // if (response === "true") {
+    //     alert("Registro exitoso");
+    //     registrarAuditoria(datos.userName);
+    // } else {
+    //     alert("Ya se encuentra un usuario con el mismo username");
+    //
+    // }
+
+
     //location.reload();
 
 }
@@ -140,6 +152,28 @@ function clearDataFrom() {
     email.value = "";
     userName.value = "";
     contraseña.value = "";
+
+}
+
+async function validarusername(username) {
+    const requests = await fetch('api/validarusuario/' + username, {
+        method: 'GET',
+        headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
+        },
+        //Con este metodo se convierte cualquier string en json
+    });
+    const response = await requests.text();
+    if (response === "false") {
+        alert("Registro exitoso");
+        registrarUsuario();
+        ip();
+    } else {
+        alert("Ya se encuentra un usuario con el mismo username");
+
+    }
+
 
 }
 
@@ -203,6 +237,34 @@ async function registrarAuditoria(usuario) {
 
 
 }
+
+async function registrarAuditoriaVisualizar(evento) {
+
+
+    let datos = {};
+
+    datos.usuario = localStorage.userName;
+    datos.actividad = "Visualizo la tabla de "+evento;
+    datos.fecha = "";
+    datos.ip = "";
+
+
+    const request = await fetch('api/auditoria', {
+
+        method: 'POST',
+        headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json',
+            // 'Authorization':localStorage.token
+        },
+        body: JSON.stringify(datos)
+
+    });
+
+
+}
+
+
 
 
 

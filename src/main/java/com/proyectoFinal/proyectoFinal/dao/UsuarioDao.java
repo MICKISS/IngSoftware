@@ -26,4 +26,6 @@ public interface UsuarioDao {
     void enviarMail(String from, String to, String subject, String body);
 
     String getClientIp(HttpServletRequest request);
+
+
 }
