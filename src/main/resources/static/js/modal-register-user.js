@@ -3,10 +3,6 @@ const modal_container = document.getElementById('modal-register-container');
 const close = document.getElementById('close-register');
 const ok = document.getElementById('button-register-owner-pet');
 
-$(document).ready(function () {
-
-
-});
 /**
  *  Method to open the modal
  */
@@ -39,6 +35,7 @@ ok.addEventListener('click', async () => {
     let userName = document.getElementById('txtUsername').value;
     let password = document.getElementById('txtContraseña').value;
     let repetirPassword = document.getElementById('txtRepetirPassword').value;
+    let vigencia = document.getElementById('txtVigencia').value;
 
 
     if (nombres !== "" && apellidos !== "" && tipoDocumento !== "Please select..." && noDocumento !== ""
@@ -50,22 +47,44 @@ ok.addEventListener('click', async () => {
         && userName !== ""
         && password !== ""
         && repetirPassword !== ""
+        && vigencia !== ""
     ) {
 
-        // if (await validateName(userName) === "false") {
+        longitudTelefono = telefono.toString().length;
+        longitudNoDocumento = noDocumento.toString().length;
+        var expReg = /^[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?$/;
+        var valido = expReg.test(email)
+        regex = /^(?=.*\d)(?=.*[a-záéíóúüñ]).*[A-ZÁÉÍÓÚÜÑ]/;
+        var validoPassword = regex.test(password);
+
+        if (vigencia <= 30 && vigencia>0) {
+            if (longitudTelefono < 11 && longitudTelefono > 6 && telefono > 0) {
+                if (longitudNoDocumento < 11 && longitudNoDocumento >= 6 && noDocumento > 0) {
+                    if (valido == true) {
+                        if (validoPassword == true) {
+                            validarusername(userName);
+                            enviarEmail(userName, password, nombres, email);
+
+                        } else {
+                            alert("La contraseña debe tener al menos una mayúscula, una minúscula y un dígito");
+                        }
+
+                    } else {
+                        alert("La dirección de email es incorrecta.");
+                    }
+
+                } else {
+                    alert("Ingrese un numero de identificación valido");
+                }
+
+            } else {
+                alert("Ingrese un numero de teléfono valido");
+            }
+        } else {
+            alert("Ingrese un numero de vigencia menor o igual a 30 y mayor a 0");
+        }
 
 
-
-        // enviarEmail(userName, password, nombres, email);
-
-        validarusername(userName);
-
-
-        //
-        // } else {
-        //
-        //     alert("El username ya existe");
-        // }
     } else {
 
         alert("Complete los espacios en blanco");
@@ -77,7 +96,10 @@ ok.addEventListener('click', async () => {
  * methodToRegisterUser
  */
 async function registrarUsuario() {
-    let username = document.getElementById('txtUsername').value;
+    // let dias = 5;
+    // var date = new Date();
+
+
     let datos = {};
     datos.userName = document.getElementById('txtUsername').value;
 
@@ -92,14 +114,9 @@ async function registrarUsuario() {
     datos.email = document.getElementById('txtEmail').value;
 
     datos.password = document.getElementById('txtContraseña').value;
-
-    let repetirPassword = document.getElementById('txtRepetirPassword').value;
-
-
-    if (repetirPassword != datos.password) {
-        alert('La contraseña que escribiste es diferente');
-        return;
-    }
+    // datos.fechaInicial = date;
+    // datos.fechaFinal = date;
+    // datos.dias = dias;
 
     const request = await fetch('api/usuarios', {
         method: 'POST',
@@ -111,18 +128,9 @@ async function registrarUsuario() {
         body: JSON.stringify(datos)
     });
     registrarAuditoria(datos.userName);
-    //  validarusername(username);
-    //
-    // if (response === "true") {
-    //     alert("Registro exitoso");
-    //     registrarAuditoria(datos.userName);
-    // } else {
-    //     alert("Ya se encuentra un usuario con el mismo username");
-    //
-    // }
 
 
-    //location.reload();
+    location.reload();
 
 }
 
@@ -156,6 +164,10 @@ function clearDataFrom() {
 }
 
 async function validarusername(username) {
+
+    let contraseña = document.getElementById('txtContraseña').value;
+    let repetirContraseña = document.getElementById('txtRepetirPassword').value;
+    let dias = document.getElementById('txtVigencia').value;
     const requests = await fetch('api/validarusuario/' + username, {
         method: 'GET',
         headers: {
@@ -166,14 +178,21 @@ async function validarusername(username) {
     });
     const response = await requests.text();
     if (response === "false") {
-        alert("Registro exitoso");
-        registrarUsuario();
-        ip();
+        if (contraseña != repetirContraseña) {
+            alert('La contraseña que escribiste es diferente');
+            return;
+        } else {
+            registrarUsuario();
+            registrarCaducidad(username, dias);
+            ip();
+
+            alert("Registro exitoso");
+        }
+
     } else {
         alert("Ya se encuentra un usuario con el mismo username");
 
     }
-
 
 }
 
@@ -212,6 +231,7 @@ async function ip() {
 
 async function registrarAuditoria(usuario) {
 
+
     let registro = "Registro el usuario " + usuario;
 
     let datos = {};
@@ -240,11 +260,12 @@ async function registrarAuditoria(usuario) {
 
 async function registrarAuditoriaVisualizar(evento) {
 
+    ip();
 
     let datos = {};
 
     datos.usuario = localStorage.userName;
-    datos.actividad = "Visualizo la tabla de "+evento;
+    datos.actividad = "Visualizo la tabla de " + evento;
     datos.fecha = "";
     datos.ip = "";
 
@@ -260,6 +281,67 @@ async function registrarAuditoriaVisualizar(evento) {
         body: JSON.stringify(datos)
 
     });
+
+
+}
+
+async function registrarCaducidad(username, dias) {
+
+    var date = new Date();
+
+    let datos = {};
+    datos.userName = username;
+    datos.fechaInicial = date;
+    datos.fechaFinal = date;
+    datos.dias = dias;
+
+   const request = await fetch('api/caducidad', {
+        method: 'POST',
+        headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
+        },
+        //Con este metodo se convierte cualquier string en json
+        body: JSON.stringify(datos)
+    });
+
+}
+
+async function cambiarPassword(username) {
+    var date = new Date();
+    let password = document.getElementById('txt_renovar_password').value;
+
+    regex = /^(?=.*\d)(?=.*[a-záéíóúüñ]).*[A-ZÁÉÍÓÚÜÑ]/;
+    var validoPassword = regex.test(password);
+
+
+    if (validoPassword === true) {
+
+        const requests = await fetch('api/cambiarcaducidad/'+username, {
+            method: 'PUT',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            },
+        });
+        const response = await  requests.text();
+
+
+
+        const request = await fetch('api/cambiapass/' + username + "/" + password, {
+            method: 'POST',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            },
+
+        });
+        registrarCaducidad(username, response);
+        window.location.href = "login.html"
+    }else {
+        alert("La contraseña debe tener al menos una mayúscula, una minúscula y un dígito");
+    }
+
 
 
 }

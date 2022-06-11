@@ -31,10 +31,10 @@ public class AuditoriaController {
     @RequestMapping(value = "api/auditoria", method = RequestMethod.POST)
     public void registrarAuditoria(@RequestBody Auditoria auditoria) {
 
-        String timeStamp = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(Calendar.getInstance().getTime());
+       // String timeStamp = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(Calendar.getInstance().getTime());
         auditoria.setIp(ip);
-        Timestamp timestamp = Timestamp.valueOf(timeStamp);
-        auditoria.setFecha(timestamp);
+       // Timestamp timestamp = Timestamp.valueOf(timeStamp);
+       // auditoria.setFecha(timestamp);
 
 
         auditoriaDao.registrar(auditoria);

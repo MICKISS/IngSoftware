@@ -1,4 +1,5 @@
 // Call the dataTables jQuery plugin
+
 $(document).ready(function () {
     cargarUsuarios();
     $('#usuarios').DataTable();
@@ -42,8 +43,10 @@ async function cargarUsuarios() {
             '        <td>' + usuario.sexo + '</td> \n' +
             '        <td>' + usuario.rol + '</td> \n' +
             '        <td>' + usuario.email + '</td> \n' +
+            '        <td>' + usuario.estado + '</td>\n' +
             '        <td>' + botonEliminar + '</td>\n' +
             '        <td>' + botonActualizar + '</td>\n' +
+
             '    </tr>';
         listadoHtml += usuarioHtml;
     }
@@ -61,36 +64,35 @@ function getHeaders() {
     };
 }
 
-async function eliminarUsuario(username) {
+async function eliminarUsuario(username, rol) {
+
     if (!confirm("¿Desea eliminar este usuario?")) {
         return;
     }
+    if (username === localStorage.userName) {
+        alert("No puede eliminarse a si mismo")
+        return;
+    } else {
+        const request = await fetch('api/usuarios/' + username, {
 
-
-
-    const request = await fetch('api/usuarios/' + username, {
-
-        method: 'DELETE',
-        headers: {
-            'Accept': 'application/json',
-            'Content-Type': 'application/json',
-            // 'Authorization':localStorage.token
-        }
-    });
-    if (username=== localStorage.userName){
-        window.location.href="login.html"
-
-    }else{
-        //location.reload();
+            method: 'DELETE',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json',
+                // 'Authorization':localStorage.token
+            }
+        });
     }
 
 
+    location.reload();
 
 
 }
 
 
 async function registrarAuditoriaEliminar(usuario) {
+    ip();
 
     let registro = "Elimino el usuario " + usuario;
 

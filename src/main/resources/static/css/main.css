@@ -1,0 +1,22 @@
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:"Helvetica Neue",Helvetica,Arial,sans-serif;
+}
+body{
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    min-height:100vh;
+}
+.drop-area{
+    border:5px dashed #ddd;
+    height:500px;
+    width:700px;
+    border-radius:5px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    flex-direction:column;
+}

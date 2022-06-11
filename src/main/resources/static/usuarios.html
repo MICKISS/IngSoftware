@@ -2,14 +2,14 @@
 <html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
 
 <head>
-
+    <link rel="icon" type="image/png" href="./img/logo.png">
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>SB Admin 2 - Tables</title>
+    <title>Simor Comunity</title>
 
     <!-- Custom fonts for this template -->
     <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
@@ -37,10 +37,8 @@
 
         <!-- Sidebar - Brand -->
         <a class="sidebar-brand d-flex align-items-center justify-content-center" href="index.html">
-            <div class="sidebar-brand-icon rotate-n-15">
-                <i class="fas fa-laugh-wink"></i>
-            </div>
-            <div class="sidebar-brand-text mx-3">Users System<sup>2</sup></div>
+            <div><img src="./img/logo.png"></div>
+            <div class="sidebar-brand-text mx-3">Simor Comunity</div>
         </a>
 
 
@@ -104,18 +102,7 @@
                         <!-- Dropdown - User Information -->
                         <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in"
                              aria-labelledby="userDropdown">
-                            <a class="dropdown-item" href="#">
-                                <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
-                                Profile
-                            </a>
-                            <a class="dropdown-item" href="#">
-                                <i class="fas fa-cogs fa-sm fa-fw mr-2 text-gray-400"></i>
-                                Settings
-                            </a>
-                            <a class="dropdown-item" href="#">
-                                <i class="fas fa-list fa-sm fa-fw mr-2 text-gray-400"></i>
-                                Activity Log
-                            </a>
+
                             <div class="dropdown-divider"></div>
                             <a class="dropdown-item" href="#" data-toggle="modal" data-target="#logoutModal">
                                 <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
@@ -143,6 +130,7 @@
                     </div>
                     <div class="card-body">
                         <div class="table-responsive">
+                            Buscar:  <input id="searchTerm" type="text" onkeyup="doSearch()"/>
                             <table class="table table-bordered" id="usuarios" width="100%" cellspacing="0">
                                 <thead>
                                 <th>Username</th>
@@ -155,6 +143,7 @@
                                 <th>Sexo</th>
                                 <th>Rol</th>
                                 <th>Email</th>
+                                <th>Estado</th>
 
                                 </thead>
 
@@ -162,7 +151,17 @@
 
 
                                 </tbody>
+                                <tr class='noSearch hide'>
+
+                                    <td colspan="5"></td>
+
+                                </tr>
                             </table>
+                            <tr class='noSearch hide'>
+
+                                <td colspan="5"></td>
+
+                            </tr>
                         </div>
                         <div style="margin-right: auto; margin-left: auto; text-align: center; margin-top: 2%">
                             <button id="modal-register-button" class="btn btn-primary">Registrar Usuario</button>
@@ -178,12 +177,12 @@
 
                                     <p>
                                         <label>Nombres</label>
-                                        <input type="text" id="txtNombres" name="txtNombres" placeholder="Nombres">
+                                        <input type="text" id="txtNombres" name="txtNombres" placeholder="Nombres" maxlength="40">
                                     </p>
                                     <p>
                                         <label>Apellidos</label>
                                         <input type="text" id="txtApellidos" name="txtApellidos"
-                                               placeholder="Apellidos">
+                                               placeholder="Apellidos" maxlength="40">
                                     </p>
                                     <p>
                                         <label>Tipo de documento</label>
@@ -198,6 +197,8 @@
                                         <label>No documento</label>
                                         <input type="number" id="txtNoDocumento" name="txtNoDocumento"
                                                placeholder="No documento">
+
+
                                     </p>
                                     <p>
                                         <label>Sexo</label>
@@ -210,11 +211,12 @@
                                     <p>
                                         <label>Dirección</label>
                                         <input type="text" id="txtDireccion" name="txtDireccion"
-                                               placeholder="Dirección">
+                                               placeholder="Dirección" maxlength="40">
                                     </p>
                                     <p>
                                         <label>Telefono</label>
-                                        <input type="number" id="txtTelefono" name="txtTelefono" placeholder="Telefono">
+                                        <input type="number" id="txtTelefono" name="txtTelefono" placeholder="Telefono"
+                                                >
                                     </p>
                                     <p>
                                         <label>Rol</label>
@@ -228,23 +230,32 @@
 
                                     <p>
                                         <label>Email</label>
-                                        <input type="email" id="txtEmail" name="txtEmail" placeholder="Email">
+                                        <input type="email" id="txtEmail" name="txtEmail" placeholder="Email" maxlength="40">
                                     </p>
 
                                     <p>
                                         <label>Username</label>
-                                        <input type="text" id="txtUsername" name="txtUsername" placeholder="Username">
+                                        <input type="text" id="txtUsername" name="txtUsername" placeholder="Username"maxlength="8">
                                     </p>
                                     <p>
                                         <label>Contraseña</label>
                                         <input type="password" id="txtContraseña" name="txtContraseña"
-                                               placeholder="Contraseña">
+                                               placeholder="Contraseña" maxlength="8"
+                                              >
                                     </p>
 
                                     <p>
                                         <label>Repetir Contraseña</label>
                                         <input type="password" id="txtRepetirPassword" name="txtRepetirPassword"
-                                               placeholder="Confirme la contraseña">
+                                               placeholder="Confirme la contraseña"maxlength="8"
+                                              >
+                                    </p>
+
+                                    <p>
+                                        <label>Vigencia de contraseña</label>
+                                        <input type="number" id="txtVigencia" name="txtVigencia"
+                                               placeholder="Ingrese el No de vigencia de contraseña"maxlength="8"
+                                        >
                                     </p>
 
                                 </form>
@@ -271,12 +282,12 @@
                                     <p>
                                         <label>Nombres</label>
                                         <input type="text" id="txtNombres_modify" name="txtNombres_modify"
-                                               placeholder="Nombres">
+                                               placeholder="Nombres" maxlength="40">
                                     </p>
                                     <p>
                                         <label>Apellidos</label>
                                         <input type="text" id="txtApellidos_modify" name="txtApellidos_modify"
-                                               placeholder="Apellidos">
+                                               placeholder="Apellidos" maxlength="40">
                                     </p>
                                     <p>
                                         <label>Tipo de documento</label>
@@ -290,7 +301,7 @@
                                     <p>
                                         <label>No documento</label>
                                         <input type="number" id="txtNoDocumento_modify" name="txtNoDocumento_modify"
-                                               placeholder="No documento">
+                                               placeholder="No documento" min="6" max="10">
                                     </p>
                                     <p>
                                         <label>Sexo</label>
@@ -303,12 +314,12 @@
                                     <p>
                                         <label>Dirección</label>
                                         <input type="text" id="txtDireccion_modify" name="txtDireccion_modify"
-                                               placeholder="Dirección">
+                                               placeholder="Dirección" maxlength="40">
                                     </p>
                                     <p>
                                         <label>Telefono</label>
                                         <input type="number" id="txtTelefono_modify" name="txtTelefono_modify"
-                                               placeholder="Telefono">
+                                               placeholder="Telefono" max="10">
                                     </p>
                                     <p>
                                         <label>Rol</label>
@@ -323,19 +334,27 @@
                                     <p>
                                         <label>Email</label>
                                         <input type="email" id="txtEmail_modify" name="txtEmail_modify"
-                                               placeholder="Email">
+                                               placeholder="Email" maxlength="40">
                                     </p>
 
                                     <p>
                                         <label>Contraseña</label>
                                         <input type="password" id="txtContraseña_modify" name="txtContraseña_modify"
-                                               placeholder="Contraseña">
+                                               placeholder="Contraseña" maxlength="8">
                                     </p>
 
                                     <p>
                                         <label>Repetir Contraseña</label>
                                         <input type="password" id="txtRepetirPassword_modify"
-                                               name="txtRepetirPassword_modify" placeholder="Confirme la contraseña">
+                                               name="txtRepetirPassword_modify" placeholder="Confirme la contraseña" maxlength="8">
+                                    </p>
+
+                                    <p>
+                                        <label>Estado</label>
+                                        <select class="select-item" id="txtEstado" name="txtEstado" required>
+                                            <option value="0">Please select...</option>
+                                            <option> Activo</option>
+                                        </select>
                                     </p>
 
                                 </form>
@@ -391,10 +410,10 @@
                     <span aria-hidden="true">×</span>
                 </button>
             </div>
-            <div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>
+            <div class="modal-body">Seleccione "Cerrar sesión" a continuación si está listo para finalizar su sesión actual.</div>
             <div class="modal-footer">
-                <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
-                <a class="btn btn-primary" href="login.html">Logout</a>
+                <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancelar</button>
+                <a onclick="registrarAuditoriaAcceso(localStorage.userName, 'salir')" class="btn btn-primary" href="login.html">Cerrar sesión</a>
             </div>
         </div>
     </div>
@@ -412,17 +431,21 @@
 <script src="js/sb-admin-2.min.js"></script>
 
 <!-- Page level plugins -->
-<script src="vendor/datatables/jquery.dataTables.min.js"></script>
-<script src="vendor/datatables/dataTables.bootstrap4.min.js"></script>
+<!--<script src="vendor/datatables/jquery.dataTables.min.js"></script>-->
+<!--<script src="vendor/datatables/dataTables.bootstrap4.min.js"></script>-->
 
 <!-- Page level custom scripts -->
 <script src="js/usuarios.js"></script>
 
 <script src="./js/modal-register-user.js"></script>
 <script src="./js/modal-modify-user.js"></script>
-<script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.12.1/js/jquery.dataTables.js"></script>
+<script src="./js/login.js"></script>
+<script src="js/buscar.js"></script>
+
 
 
 </body>
 
 </html>
+
+

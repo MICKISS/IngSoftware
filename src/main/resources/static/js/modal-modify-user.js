@@ -46,6 +46,7 @@ okK.addEventListener('click', async () => {
     let email = document.getElementById('txtEmail_modify').value;
     let password = document.getElementById('txtContraseña_modify').value;
     let repetirPassword = document.getElementById('txtRepetirPassword_modify').value;
+    let estado = document.getElementById('txtEstado').value;
 
 
     if (nombres !== "" && apellidos !== "" && tipoDocumento !== "Please select..." && noDocumento !== ""
@@ -56,8 +57,41 @@ okK.addEventListener('click', async () => {
         && email !== ""
         && password !== ""
         &&repetirPassword !== ""
+        && estado !== "Please select..."
     ) {
-        modificarUsuario();
+        longitudTelefono = telefono.toString().length;
+        longitudNoDocumento = noDocumento.toString().length;
+        var expReg = /^[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?$/;
+        var valido = expReg.test(email)
+        regex = /^(?=.*\d)(?=.*[a-záéíóúüñ]).*[A-ZÁÉÍÓÚÜÑ]/;
+        var validoPassword = regex.test(password);
+
+
+        if (longitudTelefono < 11 && longitudTelefono > 6&&telefono>0) {
+            if (longitudNoDocumento < 11 && longitudNoDocumento >= 6&&noDocumento>0) {
+                if (valido == true) {
+                    if (validoPassword == true) {
+
+                        modificarUsuario();
+                        enviarEmail(userName, password, nombres, email);
+
+                    } else {
+                        alert("La contraseña debe tener al menos una mayúscula, una minúscula y un dígito");
+                    }
+
+                } else {
+                    alert("La dirección de email es incorrecta.");
+                }
+
+            } else {
+                alert("Ingrese un numero de identificación valido");
+            }
+
+        } else {
+            alert("Ingrese un numero de teléfono valido");
+        }
+
+
 
     } else {
 
@@ -81,6 +115,8 @@ async function modificarUsuario() {
     datos.rol = document.getElementById('txtRol_modify').value;
     datos.email = document.getElementById('txtEmail_modify').value;
     datos.password = document.getElementById('txtContraseña_modify').value;
+    datos.estado = document.getElementById('txtEstado').value;
+
 
     let repetirPassword = document.getElementById('txtRepetirPassword_modify').value;
 
@@ -102,6 +138,7 @@ async function modificarUsuario() {
 
     alert("Actualización exitoso");
     registrarAuditoriaModificar(datos.userName);
+    location.reload();
     // window.location.href='login.html';
 
 }
@@ -137,6 +174,7 @@ function clearDataFrom() {
 
 
  async function registrarAuditoriaModificar(usuario) {
+     ip();
 
      let registro = "Modifico el usuario " + usuario;
 
@@ -165,8 +203,6 @@ function clearDataFrom() {
  }
 async function cargarTexto(username) {
 
-
-
     const request = await fetch('api/usuarios/' + username, {
         method: 'PUT',
         headers: getHeaders()
@@ -183,8 +219,9 @@ async function cargarTexto(username) {
     let telefono = document.getElementById('txtTelefono_modify');
     let rol = document.getElementById('txtRol_modify');
     let email = document.getElementById('txtEmail_modify');
-    // let contraseña = document.getElementById('txtContraseña_modify');
-    // let repetirContraseña = document.getElementById('txtRepetirPassword_modify');
+    let estado = document.getElementById('txtEstado');
+    let contraseña = document.getElementById('txtContraseña_modify');
+    let repetirContraseña = document.getElementById('txtRepetirPassword_modify');
 
 
     nombres.value = usuarios.nombres;
@@ -196,11 +233,10 @@ async function cargarTexto(username) {
     telefono.value = usuarios.telefono;
     rol.value = usuarios.rol;
     email.value = usuarios.email;
+    estado.value = usuarios.estado;
     // contraseña.value = usuarios.password;
-    // repetirContraseña.value=usuarios.password;
+    // repetirContraseña.value = usuarios.password;
 
-
-    console.log(usuarios);
 
 }
 

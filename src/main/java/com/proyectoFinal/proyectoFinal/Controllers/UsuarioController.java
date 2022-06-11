@@ -1,24 +1,29 @@
 package com.proyectoFinal.proyectoFinal.Controllers;
 
-import com.proyectoFinal.proyectoFinal.Services.EnviarEmailService;
-import com.proyectoFinal.proyectoFinal.dao.AuditoriaDao;
+
 import com.proyectoFinal.proyectoFinal.dao.UsuarioDao;
 import com.proyectoFinal.proyectoFinal.dao.UsuarioRepository;
-import com.proyectoFinal.proyectoFinal.model.Auditoria;
+
+import com.proyectoFinal.proyectoFinal.model.CaducidadPassword;
 import com.proyectoFinal.proyectoFinal.model.Usuario;
 import com.proyectoFinal.proyectoFinal.utils.JWTUtil;
 import de.mkammerer.argon2.Argon2;
 import de.mkammerer.argon2.Argon2Factory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
+
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.ModelAndView;
+
 
 
 import javax.servlet.http.HttpServletRequest;
+import java.security.*;
+import java.math.*;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
+import java.sql.Date;
+import java.util.Calendar;
 import java.util.List;
-import java.util.Optional;
+
 
 @RestController
 public class UsuarioController {
@@ -30,12 +35,6 @@ public class UsuarioController {
     private UsuarioRepository usuarioRepository;
     @Autowired
     private JWTUtil jwtUtil;
-
-
-
-
-
-
 
 
     @RequestMapping(value = "api/usuarios", method = RequestMethod.GET)
@@ -51,19 +50,34 @@ public class UsuarioController {
     }
 
     @RequestMapping(value = "api/usuarios", method = RequestMethod.POST)
-    public void registrarUsuario(@RequestBody Usuario usuario) {
-        //Encripta la contraseña
-//        Argon2 argon2 = Argon2Factory.create(Argon2Factory.Argon2Types.ARGON2id);
-//        String hash=argon2.hash(1,1024,1,usuario.getPassword());
+    public void registrarUsuario(@RequestBody Usuario usuario) throws NoSuchAlgorithmException {
+
+        MessageDigest m=MessageDigest.getInstance("MD5");
+        m.update(usuario.getPassword().getBytes(),0,usuario.getPassword().length());
+
+        String md5 = new BigInteger(1,m.digest()).toString(16);
+
+
 //
-//        usuario.setPassword(hash);
+       usuario.setPassword(md5);
+       usuario.setEstado("Activo");
+
         usuarioDao.registrar(usuario);
     }
 
 
     @RequestMapping(value = "api/usuarios/{username}", method = RequestMethod.DELETE)
-    public void eliminar(@PathVariable String username) {
-        usuarioDao.eliminar(username);
+    public void eliminar(@PathVariable String username)
+    {
+        if (usuarioDao.getUsuarios().size() != 0) {
+            for (int i = 0; i < usuarioDao.getUsuarios().size(); i++) {
+                if (usuarioDao.getUsuarios().get(i).getUserName().equals(username)
+                ) {
+                    usuarioDao.getUsuarios().get(i).setEstado("Inactivo");
+                }
+            }
+        }
+
     }
 
     @RequestMapping(value = "api/sendmail/{username}/{password}/{nombres}/{mail}", method = RequestMethod.POST)
@@ -83,15 +97,7 @@ public class UsuarioController {
         return usuarioDao.findById(username);
 
     }
-//    @RequestMapping(value="api/validarusuario/{username}", method = RequestMethod.GET)
-//    private boolean verificarUsuario(@PathVariable("username") String username) {
-//
-//        if(usuarioDao.validarUsername(username)== true){
-//            return true;
-//        }
-//        return false;
-//
-//    }
+
 
     @GetMapping("api/validarusuario/{username}")
     private String validateName(@PathVariable("username") String userName) {
@@ -120,7 +126,22 @@ public class UsuarioController {
 
         return clientIp;
     }
+    @RequestMapping(value = "api/ca", method = RequestMethod.POST)
+    public void registrarCaducidad(@RequestBody CaducidadPassword caducidadPass) {
+        System.out.println("ENTROCONTROLLER");
+        usuarioDao.registrarC(caducidadPass);
+    }
 
+
+    @RequestMapping(value = "api/cambiapass/{username}/{password}", method = RequestMethod.POST)
+    public void cambiaPass(@PathVariable String username,@PathVariable String password) throws NoSuchAlgorithmException {
+
+        MessageDigest m=MessageDigest.getInstance("MD5");
+        m.update(password.getBytes(),0,password.length());
+
+        String md5 = new BigInteger(1,m.digest()).toString(16);
+        usuarioDao.modificar(username,md5);
+    }
 
 
 }

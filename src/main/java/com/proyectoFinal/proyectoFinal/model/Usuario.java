@@ -4,6 +4,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.sql.Date;
 
 @Entity
 @Table(name = "usuarios")
@@ -43,8 +44,23 @@ public class Usuario {
     @Getter @Setter @Column(name = "password")
     private String password;
 
+    @Getter @Setter @Column(name = "estado")
+    private String estado;
 
-    public Usuario(String username, String userName, String nombres, String apellidos, String tipoDocumento, String noDocumento, String sexo, String direccion, String telefono, String rol) {
-    }
     public Usuario(){}
+
+    public Usuario(String userName, String nombres, String apellidos, String tipoDocumento, String noDocumento, String sexo, String direccion, String telefono, String rol, String email, String password, String estado) {
+        this.userName = userName;
+        this.nombres = nombres;
+        this.apellidos = apellidos;
+        this.tipoDocumento = tipoDocumento;
+        this.noDocumento = noDocumento;
+        this.sexo = sexo;
+        this.direccion = direccion;
+        this.telefono = telefono;
+        this.rol = rol;
+        this.email = email;
+        this.password = password;
+        this.estado = estado;
+    }
 }

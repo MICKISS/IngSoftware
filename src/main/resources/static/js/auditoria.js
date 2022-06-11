@@ -8,7 +8,7 @@ function actualizarusername() {
     document.getElementById('txt-userName').outerHTML = localStorage.userName;
 
 }
-const table= document.querySelector("#usuarios");
+
 
 async function cargarAuditoria() {
 
@@ -25,13 +25,16 @@ async function cargarAuditoria() {
     for (let auditoria of historial) {
 
         var date = new Date(auditoria.fecha);
-
+        const formatDate = (current_datetime)=>{
+            let formatted_date = current_datetime.getFullYear() + "-" + (current_datetime.getMonth() + 1) + "-" + current_datetime.getDate() + " " + current_datetime.getHours() + ":" + current_datetime.getMinutes() + ":" + current_datetime.getSeconds();
+            return formatted_date;
+        }
 
         let auditoriaHtml = '<tr>\n' +
             '        <td>' + auditoria.id + '</td>\n' +
             '        <td>' + auditoria.usuario + '</td> \n' +
             '        <td>' + auditoria.actividad + '</td>\n' +
-            '        <td>' + date+ '</td>\n' +
+            '        <td>' + formatDate(date)+ '</td>\n' +
             '        <td>' + auditoria.ip + '</td>\n' +
             '    </tr>';
         listadoHtml += auditoriaHtml;
