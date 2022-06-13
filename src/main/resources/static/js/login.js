@@ -72,7 +72,7 @@ async function iniciarSesion() {
     if (responses === "true") {
         if (ingresos === "Activo") {
             if (caducidads === "disponible") {
-                if (contador < 3) {
+                if (contador < 2) {
                     if (response == "OK") {
                         localStorage.userName = datos.userName;
 

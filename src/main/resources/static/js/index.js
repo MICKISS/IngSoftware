@@ -60,7 +60,7 @@ function processFile(file) {
                               <img src="https://i.blogs.es/9de470/excel/840_560.jpg" alt="${file.name}" width="50px">
                               <div class="status">
                                  <span>${file.name}</span>
-                                 <span class="status-text">
+                                 <span id ="status"class="status-text">
                                     Loading...
                                   </span>
                                </div>
@@ -79,19 +79,16 @@ function processFile(file) {
 async function uploadFile(file,id) {
     const formData = new FormData();
     formData.append("file", file);
-    try {
-        const response = await fetch("http://localhost:8080/empleado.html", {
+
+        const response = await fetch("api/excel/upload", {
             method: "POST",
             body: formData,
         });
 
         const responseText = await response.text();
 
-        document.querySelector(
-            `#${id}.status-text`
-        ).innerHTML = `<span class = "sucess">Archivo subido correctamente...</span>`;
-    } catch (error) {
-        document.querySelector(`#${id}.status-text`).innerHTML=`<span class="failure">El archivo no pudo subirse</span>`
-    }
+         document.getElementById('status').outerHTML = responseText;
+
+
 
 }
