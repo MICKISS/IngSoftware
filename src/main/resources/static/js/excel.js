@@ -70,8 +70,8 @@ function processFile(file) {
             document.querySelector('#preview').innerHTML = image + html;
         });
         fileReader.readAsDataURL(file);
-        uploadFile(file, id);
-    } else {
+      uploadFile(file, id);
+    } else  {
         alert("No es un archivo valido");
     }
 }
@@ -86,6 +86,7 @@ async function uploadFile(file,id) {
         });
 
         const responseText = await response.text();
+        alert(responseText);
 
          document.getElementById('status').outerHTML = responseText;
 

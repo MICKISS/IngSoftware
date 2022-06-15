@@ -3,6 +3,7 @@ package com.proyectoFinal.proyectoFinal.dao;
 
 
 import com.proyectoFinal.proyectoFinal.model.CaducidadPassword;
+import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
